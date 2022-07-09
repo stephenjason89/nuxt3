@@ -7,9 +7,20 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
+    "@nuxt3/apollo-module": "^0.1.1",
     "nuxt": "3.0.0-rc.4"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@vue/apollo-composable": "^4.0.0-alpha.18",
+    "@vue/apollo-option": "^4.0.0-alpha.18",
+    "apollo-link-batch-http": "^1.2.14",
+    "apollo3-cache-persist": "^0.14.1",
+    "graphql": "^15.8.0",
+    "graphql-tag": "^2.11.0",
+    "localforage": "^1.10.0",
+    "pluralize": "^8.0.0",
+    "pusher-js": "^7.1.1-beta",
     "sass": "^1.53.0",
     "vuetify": "^3.0.0-beta.5"
   }
