@@ -9,18 +9,33 @@
 </template>
 <script>
 import gql from 'graphql-tag'
+import {useQuery} from  '@vue/apollo-composable'
+
 export default {
+  setup(){
+    const { onResult } = useQuery(gql`
+        query {
+            branches {
+                id
+                name
+            }
+        }
+    `)
+    onResult(({data}) => {
+        console.log(data)
+    })
+  },
   apollo: {
     labels: {
       query: gql`
-    query {
-        labels {
-            id
-            name
-            alias
-        }
-    }
-`,
+          query {
+              labels {
+                  id
+                  name
+                  alias
+              }
+          }
+      `,
       result(res) {
         console.log(res.data)
       },
