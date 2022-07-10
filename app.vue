@@ -22,7 +22,7 @@ export default {
         }
     `)
     onResult(({data}) => {
-        console.log(data)
+        // console.log(data)
     })
   },
   apollo: {
@@ -37,7 +37,7 @@ export default {
           }
       `,
       result(res) {
-        console.log(res.data)
+        // console.log(res.data)
       },
     },
   },

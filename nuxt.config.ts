@@ -4,8 +4,7 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
     css: ['vuetify/lib/styles/main.sass'],
     build: {
-        transpile: ['vuetify','@apollo/client',
-            'ts-invariant/process'],
+        transpile: ['vuetify', '@apollo/client/core', '@vue/apollo-composable', '@vue/apollo-option', 'ts-invariant/process', 'tslib'],
     },
     runtimeConfig: {
         public:{
