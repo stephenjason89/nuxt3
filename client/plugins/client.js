@@ -2,13 +2,13 @@ import { BatchHttpLink } from 'apollo-link-batch-http'
 import { InMemoryCache, ApolloClient, ApolloLink } from '@apollo/client/core'
 // import { CachePersistor, LocalForageWrapper } from 'apollo3-cache-persist'
 // import localforage from 'localforage'
-import {defineNuxtPlugin, useRequestEvent, useRuntimeConfig} from "nuxt/app";
+import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig } from 'nuxt/app'
 import { createApolloProvider } from '@vue/apollo-option'
-import { DefaultApolloClient } from "@vue/apollo-composable"
-import {getSubdomain} from "assets/js/utils";
-import PusherLink from "~/plugins/graphql/pusher";
-import Pusher from "pusher-js";
-import {onError} from "@apollo/client/link/error";
+import { DefaultApolloClient } from '@vue/apollo-composable'
+import { getSubdomain } from 'assets/js/utils'
+import PusherLink from '~/plugins/graphql/pusher'
+import Pusher from 'pusher-js'
+import { onError } from '@apollo/client/link/error'
 
 export default defineNuxtPlugin((nuxtApp) => {
     const runtimeConfig = useRuntimeConfig()
@@ -66,26 +66,30 @@ export default defineNuxtPlugin((nuxtApp) => {
                     console.log(
                         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
                     ),
-                );
-            if (networkError) console.log(`[Network error]: ${networkError}`);
+                )
+            if (networkError) console.log(`[Network error]: ${networkError}`)
         }),
-        ...(process.client ? [new PusherLink({
-            pusher: new Pusher(runtimeConfig.public.pusherKey, {
-                auth: {
-                    headers: { 'X-Tenant': subdomain },
-                },
-                wsHost: runtimeConfig.public.wsHostname,
-                wsPort: runtimeConfig.public.wsPort,
-                wssPort: runtimeConfig.public.wsPort,
-                disableStats: true,
-                authEndpoint: `${runtimeConfig.public.laravelEndpoint}/graphql/subscriptions/auth`,
-                enabledTransports: ['ws', 'wss'],
-            }),
-        })]:[]),
+        ...(process.client
+            ? [
+                  new PusherLink({
+                      pusher: new Pusher(runtimeConfig.public.pusherKey, {
+                          auth: {
+                              headers: { 'X-Tenant': subdomain },
+                          },
+                          wsHost: runtimeConfig.public.wsHostname,
+                          wsPort: runtimeConfig.public.wsPort,
+                          wssPort: runtimeConfig.public.wsPort,
+                          disableStats: true,
+                          authEndpoint: `${runtimeConfig.public.laravelEndpoint}/graphql/subscriptions/auth`,
+                          enabledTransports: ['ws', 'wss'],
+                      }),
+                  }),
+              ]
+            : []),
         new BatchHttpLink({
             uri: `${runtimeConfig.public.laravelEndpoint}/graphql`,
-            headers: { 'X-Tenant': subdomain, Authorization: "Bearer " },
-            fetch: process.client ? authFetch: fetch,
+            headers: { 'X-Tenant': subdomain, Authorization: 'Bearer ' },
+            fetch: process.client ? authFetch : fetch,
         }),
     ])
 
@@ -100,6 +104,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         defaultClient: apolloClient,
     })
 
-    nuxtApp.vueApp.use(apolloProvider);
+    nuxtApp.vueApp.use(apolloProvider)
     nuxtApp.vueApp.provide(DefaultApolloClient, apolloClient)
 })
