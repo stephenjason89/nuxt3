@@ -4,16 +4,40 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
     srcDir: 'client/',
     css: ['vuetify/lib/styles/main.sass'],
-    build: {
-        transpile: ['vuetify', '@apollo/client/core', '@vue/apollo-composable', '@vue/apollo-option', 'ts-invariant/process', 'tslib'],
+    typescript: {
+        strict: true,
+        tsConfig: {
+            compilerOptions: {
+                lib: ['ESNext', 'ESNext.AsyncIterable', 'DOM', 'webworker'],
+                types: [
+                    '@pinia/nuxt',
+                    '@types/node',
+                    '@nuxt/types',
+                    '@nuxtjs/axios',
+                    '@nuxt/image',
+                    '@types/offscreencanvas',
+                ],
+            },
+        },
     },
+    build: {
+        transpile: [
+            'vuetify',
+            '@apollo/client/core',
+            '@vue/apollo-composable',
+            '@vue/apollo-option',
+            'ts-invariant/process',
+            'tslib',
+        ],
+    },
+    modules: ['@pinia/nuxt'],
     runtimeConfig: {
-        public:{
+        public: {
             nuxtURL: process.env.NUXT_URL,
             laravelEndpoint: process.env.LARAVEL_URL,
             pusherKey: process.env.PUSHER_APP_KEY,
             wsHostname: process.env.WS_HOSTNAME,
             wsPort: process.env.WS_PORT,
-        }
+        },
     },
 })

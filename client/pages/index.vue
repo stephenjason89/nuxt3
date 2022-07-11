@@ -19,6 +19,7 @@ import gql from 'graphql-tag'
 import { useQuery } from '@vue/apollo-composable'
 
 export default {
+    name: 'Home',
     setup() {
         const { onResult } = useQuery(gql`
             query {
@@ -29,7 +30,7 @@ export default {
             }
         `)
         onResult(({ data }) => {
-            // console.log(data)
+            console.log(data)
         })
     },
     apollo: {
@@ -44,7 +45,7 @@ export default {
                 }
             `,
             result(res) {
-                // console.log(res.data)
+                console.log(res.data)
             },
         },
     },

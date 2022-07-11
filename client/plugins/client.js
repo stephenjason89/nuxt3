@@ -1,4 +1,4 @@
-import { BatchHttpLink } from 'apollo-link-batch-http'
+import { BatchHttpLink } from '@apollo/client/link/batch-http'
 import { InMemoryCache, ApolloClient, ApolloLink } from '@apollo/client/core'
 // import { CachePersistor, LocalForageWrapper } from 'apollo3-cache-persist'
 // import localforage from 'localforage'
