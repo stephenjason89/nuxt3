@@ -6,7 +6,7 @@ import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig } from 'nuxt/app'
 import { createApolloProvider } from '@vue/apollo-option'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import Pusher from 'pusher-js'
-import { onError } from '@apollo/client/link/error'
+// import { onError } from '@apollo/client/link/error'
 import { getSubdomain } from '~/assets/js/utils'
 import PusherLink from '~/plugins/graphql/pusher'
 
@@ -60,15 +60,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     const subdomain = getSubdomain(host)
 
     const link = ApolloLink.from([
-        onError(({ graphQLErrors, networkError }) => {
-            if (graphQLErrors)
-                graphQLErrors.map(({ message, locations, path }) =>
-                    console.log(
-                        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-                    ),
-                )
-            if (networkError) console.log(`[Network error]: ${networkError}`)
-        }),
+        // onError(({ graphQLErrors, networkError }) => {
+        //     if (graphQLErrors)
+        //         graphQLErrors.map(({ message, locations, path }) =>
+        //             console.log(
+        //                 `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        //             ),
+        //         )
+        //     if (networkError) console.log(`[Network error]: ${networkError}`)
+        // }),
         ...(process.client
             ? [
                   new PusherLink({

@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     build: {
         transpile: [
             'vuetify',
-            '@apollo/client/core',
+            '@apollo/client',
             '@vue/apollo-composable',
             '@vue/apollo-option',
             'ts-invariant/process',
