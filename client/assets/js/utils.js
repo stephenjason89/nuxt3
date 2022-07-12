@@ -1,9 +1,9 @@
-import * as pluralize from 'pluralize'
+// import * as pluralize from 'pluralize'
 import localforage from 'localforage'
 
 export function getSubdomain(url) {
     return (url.match(/localhost/g)?.length && url.match(/\./g)?.length === 1) ||
-    url.match(/\./g)?.length === 2
+        url.match(/\./g)?.length === 2
         ? url.split('.')[0]
         : ''
 }

@@ -1,18 +1,22 @@
 <template>
-    <v-container>
-        <h2>APOLLO SYSTEMS WEBSITE</h2>
-        <h5>Under Construction</h5>
-        <v-btn
-            class="justify-center mt-16"
-            x-large
-            dark
-            outlined
-            color="green"
-            @click="$router.push('/login')"
-        >
-            Go to login
-        </v-btn>
-    </v-container>
+    <v-app>
+        <v-main>
+            <v-container>
+                <h2>APOLLO SYSTEMS WEBSITE</h2>
+                <h5>Under Construction</h5>
+                <v-btn
+                    class="justify-center mt-16"
+                    x-large
+                    dark
+                    outlined
+                    color="green"
+                    @click="$router.push('/login')"
+                >
+                    Go to login
+                </v-btn>
+            </v-container>
+        </v-main>
+    </v-app>
 </template>
 <script>
 import gql from 'graphql-tag'
@@ -23,9 +27,8 @@ export default {
     setup() {
         const { onResult } = useQuery(gql`
             query {
-                branches {
-                    id
-                    name
+                company {
+                    ceo
                 }
             }
         `)
@@ -34,13 +37,11 @@ export default {
         })
     },
     apollo: {
-        labels: {
+        roadster: {
             query: gql`
                 query {
-                    labels {
-                        id
-                        name
-                        alias
+                    roadster {
+                        apoapsis_au
                     }
                 }
             `,
