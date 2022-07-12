@@ -21,11 +21,6 @@ export default defineNuxtConfig({
             },
         },
     },
-    // alias: {
-    //     '@apollo/client/core': '@apollo/client/core/core.cjs',
-    //     '@apollo/client/link/batch-http': '@apollo/client/link/batch-http/batch-http.cjs',
-    //     '@apollo/client/link/error': '@apollo/client/link/error/error.cjs',
-    // },
     build: {
         transpile: [
             'vuetify',
