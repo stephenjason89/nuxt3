@@ -4,7 +4,7 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
     buildDir: '_nuxt',
     srcDir: 'client/',
-    css: ['vuetify/lib/styles/main.sass'],
+    css: ['~/assets/css/main.css', 'vuetify/lib/styles/main.sass'],
     typescript: {
         strict: true,
         tsConfig: {

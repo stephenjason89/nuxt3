@@ -2,7 +2,7 @@
     <v-app>
         <v-main>
             <v-container>
-                <h2>APOLLO SYSTEMS WEBSITE</h2>
+                <h2>APOLLO SYSTEMS WEBSITE {{ test?.a?.b?.c }}</h2>
                 <h5>Under Construction {{ store.token }}</h5>
                 <v-btn
                     class="justify-center mt-16"
@@ -38,6 +38,9 @@ export default {
         })
         return { store }
     },
+    data: () => ({
+        test: { a: { b: { c: 'test' } } },
+    }),
     apollo: {
         users: {
             query: gql`
