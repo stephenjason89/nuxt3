@@ -8,6 +8,8 @@ Homestead.yaml
 
 # Nuxt Files
 /public/dist
+_nuxt
+.output
 
 # Package Manager logs
 npm-debug.log*

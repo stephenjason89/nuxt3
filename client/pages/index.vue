@@ -3,7 +3,7 @@
         <v-main>
             <v-container>
                 <h2>APOLLO SYSTEMS WEBSITE</h2>
-                <h5>Under Construction</h5>
+                <h5>Under Construction {{ store.token }}</h5>
                 <v-btn
                     class="justify-center mt-16"
                     x-large
@@ -21,32 +21,34 @@
 <script>
 import gql from 'graphql-tag'
 import { useQuery } from '@vue/apollo-composable'
-
+import { useAuth } from '~/store/auth'
 export default {
     name: 'Home',
     setup() {
+        const store = useAuth()
         const { onResult } = useQuery(gql`
             query {
-                company {
-                    ceo
+                branches {
+                    name
                 }
             }
         `)
         onResult(({ data }) => {
-            console.log(data)
+            // console.log(data)
         })
+        return { store }
     },
     apollo: {
-        roadster: {
+        users: {
             query: gql`
                 query {
-                    roadster {
-                        apoapsis_au
+                    users {
+                        name
                     }
                 }
             `,
             result(res) {
-                console.log(res.data)
+                // console.log(res.data)
             },
         },
     },

@@ -5,18 +5,16 @@ import { InMemoryCache, ApolloClient, ApolloLink } from '@apollo/client/core'
 import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig } from 'nuxt/app'
 import { createApolloProvider } from '@vue/apollo-option'
 import { DefaultApolloClient } from '@vue/apollo-composable'
-// import Pusher from 'pusher-js'
+import Pusher from 'pusher-js'
 import { onError } from '@apollo/client/link/error'
 import { getSubdomain } from '~/assets/js/utils'
-// import PusherLink from '~/plugins/graphql/pusher'
+import PusherLink from '~/plugins/graphql/pusher'
+import { useAuth } from '~/store/auth'
 
 export default defineNuxtPlugin((nuxtApp) => {
+    const auth = useAuth(nuxtApp.$pinia)
     const runtimeConfig = useRuntimeConfig()
     const event = useRequestEvent()
-    // const $auth = {}
-    const $authHelpers = {}
-    // const { req, $auth, $authHelpers } = context
-
     const cache = new InMemoryCache()
 
     // if (process.client) {
@@ -43,13 +41,13 @@ export default defineNuxtPlugin((nuxtApp) => {
                 break
             }
 
-        if (expiredToken && $authHelpers.isRefreshTokenExpired()) {
-            // console.error('expired token:', expiredToken, $authHelpers.isRefreshTokenExpired())
-            // $authHelpers.logout(true)
+        if (expiredToken && auth.isRefreshTokenExpired) {
+            console.error('expired token:', expiredToken, auth.isRefreshTokenExpired)
+            auth.logout(true)
             return { text: () => Promise.resolve('{"data":{}}') }
         } else if (expiredToken && process.client) {
-            // await $authHelpers.refresh()
-            // options.headers.Authorization = $auth.token
+            await auth.refresh()
+            options.headers.Authorization = auth.token
             return fetch(uri, options)
         } else {
             return initialRequest
@@ -69,26 +67,26 @@ export default defineNuxtPlugin((nuxtApp) => {
                 )
             if (networkError) console.log(`[Network error]: ${networkError}`)
         }),
-        // ...(process.client
-        //     ? [
-        //           new PusherLink({
-        //               pusher: new Pusher(runtimeConfig.public.pusherKey, {
-        //                   auth: {
-        //                       headers: { 'X-Tenant': subdomain },
-        //                   },
-        //                   wsHost: runtimeConfig.public.wsHostname,
-        //                   wsPort: runtimeConfig.public.wsPort,
-        //                   wssPort: runtimeConfig.public.wsPort,
-        //                   disableStats: true,
-        //                   authEndpoint: `${runtimeConfig.public.graphqlEndpoint}/graphql/subscriptions/auth`,
-        //                   enabledTransports: ['ws', 'wss'],
-        //               }),
-        //           }),
-        //       ]
-        //     : []),
+        ...(process.client
+            ? [
+                  new PusherLink({
+                      pusher: new Pusher(runtimeConfig.public.pusherKey, {
+                          auth: {
+                              headers: { 'X-Tenant': subdomain },
+                          },
+                          wsHost: runtimeConfig.public.wsHostname,
+                          wsPort: runtimeConfig.public.wsPort,
+                          wssPort: runtimeConfig.public.wsPort,
+                          disableStats: true,
+                          authEndpoint: `${runtimeConfig.public.graphqlEndpoint}/graphql/subscriptions/auth`,
+                          enabledTransports: ['ws', 'wss'],
+                      }),
+                  }),
+              ]
+            : []),
         new BatchHttpLink({
             uri: `${runtimeConfig.public.graphqlEndpoint}/graphql`,
-            headers: { 'X-Tenant': subdomain, Authorization: 'Bearer ' },
+            headers: { 'X-Tenant': subdomain, Authorization: auth.token },
             fetch: process.client ? authFetch : fetch,
         }),
     ])
