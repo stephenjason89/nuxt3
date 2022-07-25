@@ -1,12 +1,12 @@
-import { BatchHttpLink } from '@apollo/client/link/batch-http'
-import { InMemoryCache, ApolloClient, ApolloLink } from '@apollo/client/core'
+import { BatchHttpLink } from '@apollo/client/link/batch-http/index.js'
+import { InMemoryCache, ApolloClient, ApolloLink } from '@apollo/client/core/index.js'
 // import { CachePersistor, LocalForageWrapper } from 'apollo3-cache-persist'
 // import localforage from 'localforage'
 import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig } from 'nuxt/app'
 import { createApolloProvider } from '@vue/apollo-option'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import Pusher from 'pusher-js'
-import { onError } from '@apollo/client/link/error'
+import { onError } from '@apollo/client/link/error/index.js'
 import { getSubdomain } from '~/assets/js/utils'
 import PusherLink from '~/plugins/graphql/pusher'
 import { useAuth } from '~/store/auth'
@@ -54,7 +54,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
     }
 
-    const host = event?.req?.headers?.host ?? location.hostname
+    const host = process.server ? event?.req?.headers?.host : location?.hostname
     const subdomain = getSubdomain(host)
 
     const link = ApolloLink.from([
